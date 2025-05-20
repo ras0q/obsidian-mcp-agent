@@ -1,5 +1,5 @@
-import esbuild from "esbuild";
 import $ from "@david/dax";
+import esbuild from "esbuild";
 
 const prod = Deno.args[0] === "production";
 
@@ -14,12 +14,11 @@ if (!vaultDir.existsSync()) {
 const distDir = prod
   ? rootDir.join("dist")
   : vaultDir.join(".obsidian", "plugins", pluginName);
-if (!distDir.existsSync()) {
-  await $`mkdir -p ${distDir}`;
-}
+await $`rm -rf ${distDir}`;
+await $`mkdir -p ${distDir}`;
 
 const context = await esbuild.context({
-  entryPoints: ["main.ts", "styles.css", "manifest.json"],
+  entryPoints: ["main.ts", "styles.css"],
   outdir: distDir.toString(),
   bundle: true,
   external: [
@@ -43,11 +42,10 @@ const context = await esbuild.context({
   sourcemap: prod ? false : "inline",
   treeShaking: true,
   minify: prod,
-  loader: {
-    ".css": "copy",
-    ".json": "copy",
-  },
+  platform: "node",
 });
+
+await $`cp ./manifest.json ${distDir}/manifest.json`;
 
 if (prod) {
   await context.rebuild();

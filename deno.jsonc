@@ -7,10 +7,14 @@
   },
   "exclude": [
     "node_modules",
-    "main.js"
+    "main.js",
+    "vault-for-*"
   ],
   "imports": {
+    "@ai-sdk/google": "npm:@ai-sdk/google@^1.2.18",
     "@david/dax": "jsr:@david/dax@^0.43.0",
+    "@obsidian-ai-providers/sdk": "npm:@obsidian-ai-providers/sdk@^1.1.1",
+    "ai": "npm:ai@^4.3.16",
     "esbuild": "npm:esbuild@0.24.0",
     "obsidian": "npm:obsidian@1.7.2"
   },
